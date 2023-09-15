@@ -1,0 +1,34 @@
+{
+  "Version": 1,
+  "Hash": "ebEgROmmzp/mxYTUNgIJlOP3zR+AoT01WZtBzkVYTwA=",
+  "Source": "Task-Management-Service.Api",
+  "BasePath": "_content/Task-Management-Service.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "c:\\Users\\Decagon\\Desktop\\StackBuld_Task\\Task-Management-Service\\Task-Management-Service.Domain\\Task-Management-Service.Domain.csproj",
+      "Version": 2,
+      "Source": "Task-Management-Service.Domain",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    },
+    {
+      "Identity": "C:\\Users\\Decagon\\Desktop\\StackBuld_Task\\Task-Management-Service\\Task-Management-Service.Infrastructure\\Task-Management-Service.Infrastructure.csproj",
+      "Version": 2,
+      "Source": "Task-Management-Service.Infrastructure",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

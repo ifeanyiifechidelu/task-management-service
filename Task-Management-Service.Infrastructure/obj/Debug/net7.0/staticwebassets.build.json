@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "A/BM/OL7JgV3AzRM1WM79d3nWrsWcquO5DV+SzMcpUs=",
+  "Source": "Task-Management-Service.Infrastructure",
+  "BasePath": "_content/Task-Management-Service.Infrastructure",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "c:\\Users\\Decagon\\Desktop\\StackBuld_Task\\Task-Management-Service\\Task-Management-Service.Domain\\Task-Management-Service.Domain.csproj",
+      "Version": 2,
+      "Source": "Task-Management-Service.Domain",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

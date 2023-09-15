@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "ZdyZlAOP8wz4SZ/cDcQDP9kpN6AzCsnS1xktoAAhgyU=",
+  "Source": "Task-Management-Service.Infrastructure",
+  "BasePath": "_content/Task-Management-Service.Infrastructure",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "/Users/Nkenchor/Documents/sytycc-uk-service/Task-Management-Service.Domain/Task-Management-Service.Domain.csproj",
+      "Version": 2,
+      "Source": "Task-Management-Service.Domain",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

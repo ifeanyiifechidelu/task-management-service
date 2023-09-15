@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Task-Management-Service.Domain": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:14132;http://localhost:14133"
+    }
+  }
+}

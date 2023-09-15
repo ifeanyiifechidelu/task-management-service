@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "1g3/dbVt8BcngZHASZAdsEennLtZZggSeRkVxxavERY=",
+  "Source": "Task-Management-Service.Domain",
+  "BasePath": "_content/Task-Management-Service.Domain",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
