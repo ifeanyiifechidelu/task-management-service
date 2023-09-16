@@ -31,12 +31,26 @@ public class CreateTaskValidator : AbstractValidator<CreateTaskDto>
             .NotEmpty().WithMessage("Status must not be empty.")
             .Must(type => ValidStatusTypes.Contains(type, StringComparer.OrdinalIgnoreCase))
             .WithMessage("Status Type must be either 'Pending', 'In-Progress', 'Completed'.");
+
+        RuleFor(task => task.UserReference)
+            .NotEmpty().WithMessage("User Reference must not be empty.")
+            .Must(IsGuid).WithMessage("User Reference must be a valid GUID.");
+
+        RuleFor(task => task.ProjectReference)
+            .NotEmpty().WithMessage("Project Reference must not be empty.")
+            .Must(IsGuid).WithMessage("Project Reference must be a valid GUID.");
+
+    }
+
+    private bool IsGuid(string guid)
+    {
+        return Guid.TryParse(guid, out _);
     }
 
     public override ValidationResult Validate(ValidationContext<CreateTaskDto> context)
     {
         return context.InstanceToValidate == null
-            ? new ValidationResult(new[] { new ValidationFailure(nameof(CreateTaskDto), 
+            ? new ValidationResult(new[] { new ValidationFailure(nameof(CreateTaskDto),
             "Parameters must be in the required format and must not be null. Please stand advised.") })
             : base.Validate(context);
     }

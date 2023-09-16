@@ -13,5 +13,4 @@ public class CreateUserDto
    [EmailAddress(ErrorMessage = "Invalid email format.")]
    [StringLength(200, ErrorMessage = "Email should not exceed 200 characters.")]
     public string Email { get; set; }
-    public string[] TaskReferences { get; set; }
 }

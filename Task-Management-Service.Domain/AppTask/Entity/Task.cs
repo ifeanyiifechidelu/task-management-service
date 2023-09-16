@@ -12,6 +12,8 @@ public class ServiceTask
     public DateTime DueDate { get; set; }
     public string Priority { get; set; }
     public string Status { get; set; }
+    public string UserReference { get; set; }
+    public string ProjectReference { get; set; }
 
     public ServiceTask(CreateTaskDto createUserDto)
     {
@@ -21,6 +23,7 @@ public class ServiceTask
         DueDate = createUserDto.DueDate;
         Priority = createUserDto.Priority;
         Status = createUserDto.Status;
+        UserReference = createUserDto.UserReference;
     }
     public ServiceTask(UpdateTaskDto updateUserDto)
     {
@@ -29,6 +32,7 @@ public class ServiceTask
         DueDate = updateUserDto.DueDate;
         Priority = updateUserDto.Priority;
         Status = updateUserDto.Status;
+        UserReference = updateUserDto.UserReference;
     }
     public ServiceTask()
     {

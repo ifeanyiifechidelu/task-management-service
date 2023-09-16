@@ -81,7 +81,7 @@ public class TaskRepository : ITaskRepository
         }
     }
 
-    public async Task<ServiceTask> GetTaskByStatus(string status)
+    public async Task<List<ServiceTask>> GetTasksByStatus(string status)
     {
         try
         {
@@ -89,7 +89,7 @@ public class TaskRepository : ITaskRepository
 
             var filter = Builders<ServiceTask>.Filter.Eq(task => task.Status, status);
 
-            return await _task.Find(filter).FirstOrDefaultAsync();
+            return await _task.Find(filter).ToListAsync();
         }
         catch (Exception e)
         {
@@ -98,19 +98,74 @@ public class TaskRepository : ITaskRepository
         }
     }
 
-    public async Task<ServiceTask> GetTaskByPriority(string priority)
+    public async Task<List<ServiceTask>> GetTasksByPriority(string priority)
     {
         try
         {
-            Log.Information("Searching task by status: {0}", priority);
+            Log.Information("Searching task by priority: {0}", priority);
 
             var filter = Builders<ServiceTask>.Filter.Eq(task => task.Priority, priority);
 
-            return await _task.Find(filter).FirstOrDefaultAsync();
+            return await _task.Find(filter).ToListAsync();
         }
         catch (Exception e)
         {
-            Log.Error("Error retrieving task by status: {0}", e.Message);
+            Log.Error("Error retrieving task by priority: {0}", e.Message);
+            throw DatabaseExceptionHandler.HandleException(e);
+        }
+    }
+
+    public async Task<List<ServiceTask>> GetTasksDueByCurrentWeek(DateTime weekStartDate, DateTime weekEndDate)
+    {
+        try
+        {
+
+            Log.Information("Searching tasks due for the current week.");
+
+            var filter = Builders<ServiceTask>.Filter.And(
+                Builders<ServiceTask>.Filter.Gte(task => task.DueDate, weekStartDate),
+                Builders<ServiceTask>.Filter.Lte(task => task.DueDate, weekEndDate)
+            );
+
+            return await _task.Find(filter).ToListAsync();
+        }
+        catch (Exception e)
+        {
+            Log.Error("Error retrieving task due for the current week: {0}", e.Message);
+            throw DatabaseExceptionHandler.HandleException(e);
+        }
+    }
+
+    public async Task<List<ServiceTask>> GetTasksByUserReference(string userReference)
+    {
+        try
+        {
+            Log.Information("Searching task by user reference: {0}", userReference);
+
+            var filter = Builders<ServiceTask>.Filter.Eq(task => task.UserReference, userReference);
+
+            return await _task.Find(filter).ToListAsync();
+        }
+        catch (Exception e)
+        {
+            Log.Error("Error retrieving task by user reference: {0}", e.Message);
+            throw DatabaseExceptionHandler.HandleException(e);
+        }
+    }
+
+    public async Task<List<ServiceTask>> GetTasksByProjectReference(string projectReference)
+    {
+        try
+        {
+            Log.Information("Searching task by user reference: {0}", projectReference);
+
+            var filter = Builders<ServiceTask>.Filter.Eq(task => task.UserReference, projectReference);
+
+            return await _task.Find(filter).ToListAsync();
+        }
+        catch (Exception e)
+        {
+            Log.Error("Error retrieving task by user reference: {0}", e.Message);
             throw DatabaseExceptionHandler.HandleException(e);
         }
     }
@@ -135,7 +190,7 @@ public class TaskRepository : ITaskRepository
     {
         try
         {
-            Log.Information("Searching data by page {0}", page);
+            Log.Information("Searching data by page {0} and title {1}", page, title);
 
 
 

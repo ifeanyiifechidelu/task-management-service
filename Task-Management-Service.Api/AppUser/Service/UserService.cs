@@ -7,12 +7,14 @@ namespace Task_Management_Service.Api;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
+    private readonly ITaskRepository _taskRepository;
     private readonly IUserValidationService _userValidationService;
 
-    public UserService(IUserRepository userRepository, IUserValidationService userValidationService)
+    public UserService(IUserRepository userRepository, IUserValidationService userValidationService, ITaskRepository taskRepository)
     {
         _userRepository = userRepository;
         _userValidationService = userValidationService;
+        _taskRepository = taskRepository;
     }
 
     public async Task<string> CreateUser(CreateUserDto userDto)
@@ -123,12 +125,9 @@ public class UserService : IUserService
         try
         {
             var user = await _userRepository.GetUserByReference(reference) ?? throw new NotFoundException("User not found by the given reference.");
-            return new UserDto
-            {
-                Reference = user.Reference,
-                FullName = user.FullName,
-                Email = user.Email
-            };
+
+            var tasks = await _taskRepository.GetTasksByUserReference(reference) ?? throw new NotFoundException("User not found by the given reference.");
+            return new UserDto(user.Reference, user.FullName, user.Email, tasks);
         }
         catch (AppException)  // Catching known exceptions
         {
@@ -145,12 +144,8 @@ public class UserService : IUserService
         try
         {
             var user = await _userRepository.GetUserByEmail(email) ?? throw new NotFoundException("User not found by the given email.");
-            return new UserDto
-            {
-                Reference = user.Reference,
-                FullName = user.FullName,
-                Email = user.Email
-            };
+            var tasks = await _taskRepository.GetTasksByUserReference(user.Reference) ?? throw new NotFoundException("User not found by the given reference.");
+            return new UserDto(user.Reference, user.FullName, user.Email, tasks);
         }
         catch (AppException)  // Catching known exceptions
         {
@@ -171,12 +166,15 @@ public class UserService : IUserService
             if (users == null || !users.Any())
                 throw new NotFoundException("No users found for the given page.");
 
-            return users.Select(user => new UserDto
+
+            var tasks = new List<List<ServiceTask>>();
+            foreach (var user in users)
             {
-                Reference = user.Reference,
-                FullName = user.FullName,
-                Email = user.Email
-            }).ToList();
+                var tasksByUser = await _taskRepository.GetTasksByUserReference(user.Reference) ?? throw new NotFoundException("User not found by the given reference.");
+                tasks.Add(tasksByUser);
+            }
+
+            return users.Zip(tasks, (user, tasksByUser) => new UserDto(user.Reference, user.FullName, user.Email, tasksByUser)).ToList();
         }
         catch (AppException)  // Catching known exceptions
         {
@@ -198,12 +196,14 @@ public class UserService : IUserService
             if (users == null || !users.Any())
                 throw new NotFoundException("No users found with the given name.");
 
-            return users.Select(user => new UserDto
+            var tasks = new List<List<ServiceTask>>();
+            foreach (var user in users)
             {
-                Reference = user.Reference,
-                FullName = user.FullName,
-                Email = user.Email
-            }).ToList();
+                var tasksByUser = await _taskRepository.GetTasksByUserReference(user.Reference) ?? throw new NotFoundException("User not found by the given reference.");
+                tasks.Add(tasksByUser);
+            }
+
+            return users.Zip(tasks, (user, tasksByUser) => new UserDto(user.Reference, user.FullName, user.Email, tasksByUser)).ToList();
         }
         catch (AppException)  // Catching known exceptions
         {

@@ -7,8 +7,11 @@ public interface ITaskRepository
     Task<string> UpdateTask(string reference, ServiceTask task);
     Task<string> DeleteTask(string reference);
     Task<ServiceTask> GetTaskByReference(string reference);
-    Task<ServiceTask> GetTaskByStatus(string status);
-    Task<ServiceTask> GetTaskByPriority(string priority);
+    Task<List<ServiceTask>> GetTasksByStatus(string status);
+    Task<List<ServiceTask>> GetTasksByPriority(string priority);
+    Task<List<ServiceTask>> GetTasksDueByCurrentWeek(DateTime weekStartDate, DateTime weekEndDate);
+    Task<List<ServiceTask>> GetTasksByUserReference(string userReference);
+    Task<List<ServiceTask>> GetTasksByProjectReference(string projectReference);
     Task<List<ServiceTask>> GetTaskList(int page);
     Task<List<ServiceTask>> SearchTaskList(int page, string title);
 }

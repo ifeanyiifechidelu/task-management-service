@@ -35,6 +35,9 @@ builder.Services.AddSingleton<serviceProvider>();
 builder.Services.AddTransient<IUserRepository,UserRepository>();
 builder.Services.AddTransient<IUserService,UserService>();
 builder.Services.AddTransient<IUserValidationService,UserValidationService>();
+builder.Services.AddTransient<ITaskRepository,TaskRepository>();
+builder.Services.AddTransient<ITaskService,TaskService>();
+builder.Services.AddTransient<ITaskValidationService,TaskValidationService>();
 
 builder.Services.AddStackExchangeRedisCache(options => options.Configuration = builder.Configuration.GetSection("Redis")["RedisServer"]);
 

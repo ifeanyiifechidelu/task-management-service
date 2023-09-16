@@ -11,7 +11,6 @@ public class User
     public string LastName { get; set; }
     public string FullName { get; private set; }
     public string Email { get; set; }
-    public string[] TaskReferences { get; set; }
 
     public User(CreateUserDto createUserDto)
     {
@@ -20,7 +19,6 @@ public class User
         LastName = createUserDto.LastName;
         FullName = $"{FirstName} {LastName}";
         Email = createUserDto.Email;
-        TaskReferences = createUserDto.TaskReferences;
     }
     public User(UpdateUserDto updateUserDto)
     {
@@ -28,7 +26,6 @@ public class User
         FirstName = updateUserDto.FirstName;
         FullName = $"{FirstName} {LastName}";
         Email = updateUserDto.Email;
-        TaskReferences = updateUserDto.TaskReferences;
     }
     public User()
     {

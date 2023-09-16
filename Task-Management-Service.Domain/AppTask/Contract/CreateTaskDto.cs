@@ -16,5 +16,9 @@ public class CreateTaskDto
     public string Priority { get; set; }
     [Required(ErrorMessage = "Status is required.")]
     public string Status { get; set; }
+    [Required(ErrorMessage = "User reference is required.")]
+    public string UserReference { get; set; }
+    [Required(ErrorMessage = "Project reference is required.")]
+    public string ProjectReference { get; set; }
 
 }
