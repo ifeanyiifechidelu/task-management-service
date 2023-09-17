@@ -7,12 +7,14 @@ namespace Task_Management_Service.Api;
 public class TaskService : ITaskService
 {
     private readonly ITaskRepository _taskRepository;
+    private readonly IProjectRepository _projectRepository;
     private readonly ITaskValidationService _taskValidationService;
 
-    public TaskService(ITaskRepository taskRepository, ITaskValidationService taskValidationService)
+    public TaskService(ITaskRepository taskRepository, ITaskValidationService taskValidationService, IProjectRepository projectRepository)
     {
         _taskRepository = taskRepository;
         _taskValidationService = taskValidationService;
+        _projectRepository = projectRepository;
     }
 
     public async Task<string> CreateTask(CreateTaskDto taskDto)
@@ -84,6 +86,31 @@ public class TaskService : ITaskService
             throw new InternalServerException(e.Message);
         }
 
+    }
+
+    public async Task<string> AssignTaskToProject(string taskReference, AssignTaskToProjectDto assignTaskToProjectDto)
+    {
+        try
+        {
+            var validationException = _taskValidationService.ValidateAssignTaskToProject(assignTaskToProjectDto);
+            if (validationException != null) throw validationException;
+
+            var task = await _taskRepository.GetTaskByReference(taskReference) ?? throw new NotFoundException("No tasks found with the given user reference.");
+            var project = await _projectRepository.GetProjectByReference(assignTaskToProjectDto.ProjectReference) ?? throw new NotFoundException("No tasks found with the given project reference.");
+
+            // Assign the task to the project by setting the task's ProjectReference property
+            task.ProjectReference = assignTaskToProjectDto.ProjectReference;
+
+            return await _taskRepository.UpdateTask(taskReference, task);
+        }
+        catch (AppException)  // Catching known exceptions
+        {
+            throw;
+        }
+        catch (Exception e)  // Catching unexpected exceptions
+        {
+            throw new InternalServerException($"Error fetching task by user reference: {e.Message}");
+        }
     }
 
     public async Task<string> DeleteTask(string reference)
@@ -223,34 +250,6 @@ public class TaskService : ITaskService
         catch (Exception e)  // Catching unexpected exceptions
         {
             throw new InternalServerException($"Error fetching task due for the current week: {e.Message}");
-        }
-    }
-
-    public async Task<List<TaskDto>> GetTasksByUserReference(string userReference)
-    {
-        try
-        {
-            var tasks = await _taskRepository.GetTasksByPriority(userReference);
-            if (tasks == null || !tasks.Any())
-                throw new NotFoundException("No tasks found with the given user reference.");
-
-            return tasks.Select(task => new TaskDto
-            {
-                Reference = task.Reference,
-                Title = task.Title,
-                Description = task.Description,
-                DueDate = task.DueDate,
-                Priority = task.Priority,
-                Status = task.Status
-            }).ToList();
-        }
-        catch (AppException)  // Catching known exceptions
-        {
-            throw;
-        }
-        catch (Exception e)  // Catching unexpected exceptions
-        {
-            throw new InternalServerException($"Error fetching task by user reference: {e.Message}");
         }
     }
 

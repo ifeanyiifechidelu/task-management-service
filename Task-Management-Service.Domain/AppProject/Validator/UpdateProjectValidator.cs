@@ -8,7 +8,8 @@ public class UpdateProjectValidator : AbstractValidator<UpdateProjectDto>
     {
         RuleFor(project => project.Name)
             .NotEmpty().WithMessage("Name must not be empty.")
-            .Matches("^[a-zA-Z]+$").WithMessage("Name can only contain letters.");
+            .Length(5, 200)
+            .WithMessage("Name should be between 5 and 200 characters.");
 
         RuleFor(project => project.Description)
             .NotEmpty().WithMessage("Description must not be empty.")

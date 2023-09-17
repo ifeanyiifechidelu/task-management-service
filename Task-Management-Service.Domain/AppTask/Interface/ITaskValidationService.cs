@@ -5,4 +5,5 @@ public interface ITaskValidationService
 {
      AppException ValidateCreateTask(CreateTaskDto createTaskDto);
       AppException ValidateUpdateTask(UpdateTaskDto updateTaskDto);
+      AppException ValidateAssignTaskToProject(AssignTaskToProjectDto assignTaskToProjectDto);
 }

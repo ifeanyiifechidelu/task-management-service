@@ -28,12 +28,26 @@ public class TaskController : ControllerBase
         }
     }
 
-    [HttpPut("{reference}")]
+    [HttpPut("update-task/{reference}")]
     public async Task<IActionResult> UpdateTask(string reference, [FromBody] UpdateTaskDto updateTaskDto)
     {
         try
         {
             var result = await _taskService.UpdateTask(reference, updateTaskDto);
+            return Ok(result);
+        }
+        catch (AppException e)
+        {
+            return StatusCode(e.StatusCode, new AppExceptionResponse(e));
+        }
+    }
+
+    [HttpPut("assign-task-to-project/{taskReference}")]
+    public async Task<IActionResult> AssignTaskToProject(string taskReference, [FromBody] AssignTaskToProjectDto assignTaskToProjectDto)
+    {
+        try
+        {
+            var result = await _taskService.AssignTaskToProject(taskReference, assignTaskToProjectDto);
             return Ok(result);
         }
         catch (AppException e)

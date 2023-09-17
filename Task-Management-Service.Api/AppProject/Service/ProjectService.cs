@@ -162,11 +162,11 @@ public class ProjectService : IProjectService
     }
 
 
-    public async Task<List<ProjectDto>> SearchProjectList(int page, string fullname)
+    public async Task<List<ProjectDto>> SearchProjectList(int page, string name)
     {
         try
         {
-            var projects = await _projectRepository.SearchProjectList(page, fullname);
+            var projects = await _projectRepository.SearchProjectList(page, name);
 
             if (projects == null || !projects.Any())
                 throw new NotFoundException("No projects found with the given name.");

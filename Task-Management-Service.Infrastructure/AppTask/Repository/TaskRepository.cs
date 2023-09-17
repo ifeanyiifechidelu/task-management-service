@@ -49,6 +49,7 @@ public class TaskRepository : ITaskRepository
             throw DatabaseExceptionHandler.HandleException(e);
         }
     }
+
     public async Task<string> DeleteTask(string reference)
     {
         try
@@ -159,7 +160,7 @@ public class TaskRepository : ITaskRepository
         {
             Log.Information("Searching task by user reference: {0}", projectReference);
 
-            var filter = Builders<ServiceTask>.Filter.Eq(task => task.UserReference, projectReference);
+            var filter = Builders<ServiceTask>.Filter.Eq(task => task.ProjectReference, projectReference);
 
             return await _task.Find(filter).ToListAsync();
         }

@@ -24,6 +24,7 @@ public class ServiceTask
         Priority = createUserDto.Priority;
         Status = createUserDto.Status;
         UserReference = createUserDto.UserReference;
+        ProjectReference = createUserDto.ProjectReference;
     }
     public ServiceTask(UpdateTaskDto updateUserDto)
     {
@@ -33,6 +34,12 @@ public class ServiceTask
         Priority = updateUserDto.Priority;
         Status = updateUserDto.Status;
         UserReference = updateUserDto.UserReference;
+        ProjectReference = updateUserDto.ProjectReference;
+    }
+
+    public ServiceTask(AssignTaskToProjectDto assignTaskToProjectDto)
+    {
+        ProjectReference = assignTaskToProjectDto.ProjectReference;
     }
     public ServiceTask()
     {
