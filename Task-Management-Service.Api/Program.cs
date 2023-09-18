@@ -41,6 +41,9 @@ builder.Services.AddTransient<IProjectValidationService,ProjectValidationService
 builder.Services.AddTransient<ITaskRepository,TaskRepository>();
 builder.Services.AddTransient<ITaskService,TaskService>();
 builder.Services.AddTransient<ITaskValidationService,TaskValidationService>();
+builder.Services.AddTransient<INotificationRepository,NotificationRepository>();
+builder.Services.AddTransient<INotificationService,NotificationService>();
+builder.Services.AddTransient<INotificationValidationService,NotificationValidationService>();
 
 builder.Services.AddStackExchangeRedisCache(options => options.Configuration = builder.Configuration.GetSection("Redis")["RedisServer"]);
 

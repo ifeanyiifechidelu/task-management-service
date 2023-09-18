@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "teg8PQkS6NYV6cO1VCk6ATj3YD5ZaxIJBW54CettRhfsuByytUq9KY5nF56z/aFV2m1tg3GsNnvGMrNtOSxIbA==",
+  "dgSpecHash": "qYQkIcKQGbjeo2QkZWsD1hz8wvbfZoXA/T+IwWWakBeB3lNVjiHxOsrIcmwiDBQzbru4+ioNdMw7dtLvUmooWg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Decagon\\Desktop\\StackBuld_Task\\Task-Management-Service\\Task-Management-Service.Api\\Task-Management-Service.Api.csproj",
+  "projectFilePath": "c:\\Users\\Decagon\\Desktop\\StackBuld_Task\\Task-Management-Service\\Task-Management-Service.Api\\Task-Management-Service.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Decagon\\.nuget\\packages\\bouncycastle.cryptography\\2.2.1\\bouncycastle.cryptography.2.2.1.nupkg.sha512",
     "C:\\Users\\Decagon\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
