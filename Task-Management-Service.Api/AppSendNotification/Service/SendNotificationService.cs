@@ -7,16 +7,18 @@ namespace Task_Management_Service.Api;
 public class SendNotificationService : ISendNotificationService
 {
     private readonly IUserRepository _userRepository;
+    private readonly IEmailService _emailService;
     private readonly INotificationRepository _notificationRepository;
     private readonly ITaskRepository _taskRepository;
     private readonly INotificationValidationService _notificationValidationService;
 
-    public SendNotificationService(INotificationRepository notificationRepository, INotificationValidationService notificationValidationService, ITaskRepository taskRepository, IUserRepository userRepository)
+    public SendNotificationService(INotificationRepository notificationRepository, INotificationValidationService notificationValidationService, ITaskRepository taskRepository, IUserRepository userRepository, IEmailService emailService)
     {
         _notificationRepository = notificationRepository;
         _notificationValidationService = notificationValidationService;
         _taskRepository = taskRepository;
         _userRepository = userRepository;
+        _emailService = emailService;
     }
 
     public async Task CheckAndSendNotifications()
@@ -35,7 +37,7 @@ public class SendNotificationService : ISendNotificationService
             if (user != null)
             {
                 // Send a due date reminder notification to the user.
-                var emailContent = $"Task Due Date Reminder: {task.Name} is due on {task.DueDate}.";
+                var emailContent = $"Task Due Date Reminder: {task.Title} is due on {task.DueDate}.";
                 await SendNotificationEmail(user.Email, "Due Date Reminder", emailContent);
             }
         }
@@ -51,13 +53,15 @@ public class SendNotificationService : ISendNotificationService
             if (user != null)
             {
                 // Send a notification for the completed task.
-                var emailContent = $"Task Completed: {task.Name} has been marked as completed.";
+                var emailContent = $"Task Completed: {task.Title} has been marked as completed.";
                 await SendNotificationEmail(user.Email, "Task Completed", emailContent);
             }
         }
 
+        var cutoffTime = DateTime.Now.AddHours(-24); // For example, tasks assigned within the last 24 hours.
+
         // Check for new assigned tasks (you'll need some mechanism to track new assignments).
-        var newAssignedTasks = await _taskRepository.GetNewlyAssignedTasks();
+        var newAssignedTasks = await _taskRepository.GetNewlyAssignedTasks(cutoffTime);
 
         foreach (var task in newAssignedTasks)
         {
@@ -67,7 +71,7 @@ public class SendNotificationService : ISendNotificationService
             if (user != null)
             {
                 // Send a notification for the new assigned task.
-                var emailContent = $"New Task Assigned: You have been assigned a new task - {task.Name}.";
+                var emailContent = $"New Task Assigned: You have been assigned a new task - {task.Title}.";
                 await SendNotificationEmail(user.Email, "New Task Assigned", emailContent);
             }
         }
@@ -76,7 +80,7 @@ public class SendNotificationService : ISendNotificationService
     private async Task SendNotificationEmail(string recipient, string subject, string body)
     {
         // Use your email service to send the notification email.
-        var result = await _emailService.SendEmailAsync(recipient, subject, body);
+        var result = _emailService.SendEmail(recipient, subject, body);
 
         // You can handle the result (success or failure) as needed.
         if (result.IsSuccess)
