@@ -79,19 +79,22 @@ public class SendNotificationService : ISendNotificationService
 
     private async Task SendNotificationEmail(string recipient, string subject, string body)
     {
-        // Use your email service to send the notification email.
-        var result = _emailService.SendEmail(recipient, subject, body);
+        await Task.Run(() =>
+        {
+            // Use your email service to send the notification email.
+            var result = _emailService.SendEmail(recipient, subject, body);
 
-        // You can handle the result (success or failure) as needed.
-        if (result.IsSuccess)
-        {
-            // Log the successful email sending.
-            Log.Information($"Email sent successfully to {recipient} with subject: {subject}");
-        }
-        else
-        {
-            // Log the email sending failure.
-            Log.Error($"Failed to send email to {recipient} with subject: {subject}. Error: {result.Message}");
-        }
+            // You can handle the result (success or failure) as needed.
+            if (result.IsSuccess)
+            {
+                // Log the successful email sending.
+                Log.Information($"Email sent successfully to {recipient} with subject: {subject}");
+            }
+            else
+            {
+                // Log the email sending failure.
+                Log.Error($"Failed to send email to {recipient} with subject: {subject}. Error: {result.Message}");
+            }
+        });
     }
 }
