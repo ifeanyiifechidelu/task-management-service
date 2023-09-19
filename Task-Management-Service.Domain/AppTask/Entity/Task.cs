@@ -14,6 +14,7 @@ public class ServiceTask
     public string Status { get; set; }
     public string UserReference { get; set; }
     public string ProjectReference { get; set; }
+    public DateTime Timestamp { get; set; }
 
     public ServiceTask(CreateTaskDto createUserDto)
     {
@@ -25,6 +26,7 @@ public class ServiceTask
         Status = createUserDto.Status;
         UserReference = createUserDto.UserReference;
         ProjectReference = createUserDto.ProjectReference;
+        Timestamp = DateTime.Now;
     }
     public ServiceTask(UpdateTaskDto updateUserDto)
     {
@@ -35,6 +37,7 @@ public class ServiceTask
         Status = updateUserDto.Status;
         UserReference = updateUserDto.UserReference;
         ProjectReference = updateUserDto.ProjectReference;
+        Timestamp = DateTime.Now;
     }
 
     public ServiceTask(AssignTaskToProjectDto assignTaskToProjectDto)

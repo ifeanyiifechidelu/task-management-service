@@ -116,6 +116,25 @@ public class TaskRepository : ITaskRepository
         }
     }
 
+    
+
+    public async Task<List<ServiceTask>> GetTasksByUserReference(string userReference)
+    {
+        try
+        {
+            Log.Information("Searching task by user reference: {0}", userReference);
+
+            var filter = Builders<ServiceTask>.Filter.Eq(task => task.UserReference, userReference);
+
+            return await _task.Find(filter).ToListAsync();
+        }
+        catch (Exception e)
+        {
+            Log.Error("Error retrieving task by user reference: {0}", e.Message);
+            throw DatabaseExceptionHandler.HandleException(e);
+        }
+    }
+
     public async Task<List<ServiceTask>> GetTasksDueByCurrentWeek(DateTime weekStartDate, DateTime weekEndDate)
     {
         try
@@ -137,21 +156,40 @@ public class TaskRepository : ITaskRepository
         }
     }
 
-    public async Task<List<ServiceTask>> GetTasksByUserReference(string userReference)
+    public async Task<List<ServiceTask>> GetTasksDueWithinHours(int hours)
     {
-        try
-        {
-            Log.Information("Searching task by user reference: {0}", userReference);
+        // Calculate the cutoff time as the current time plus the specified hours.
+        var cutoffTime = DateTime.Now.AddHours(hours);
 
-            var filter = Builders<ServiceTask>.Filter.Eq(task => task.UserReference, userReference);
+        // Create a filter to find tasks with due dates earlier than or equal to the cutoff time.
+        var filter = Builders<ServiceTask>.Filter.Lte(task => task.DueDate, cutoffTime);
 
-            return await _task.Find(filter).ToListAsync();
-        }
-        catch (Exception e)
-        {
-            Log.Error("Error retrieving task by user reference: {0}", e.Message);
-            throw DatabaseExceptionHandler.HandleException(e);
-        }
+        // Use the filter to query MongoDB and retrieve tasks due within the specified time frame.
+        var tasksDueWithinHours = await _task.Find(filter).ToListAsync();
+
+        return tasksDueWithinHours;
+    }
+
+    public async Task<List<ServiceTask>> GetCompletedTasks()
+    {
+        // Create a filter to find completed tasks.
+        var filter = Builders<ServiceTask>.Filter.Eq(task => task.Status, "Completed");
+
+        // Use the filter to query MongoDB and retrieve completed tasks.
+        var completedTasks = await _task.Find(filter).ToListAsync();
+
+        return completedTasks;
+    }
+
+    public async Task<List<ServiceTask>> GetNewlyAssignedTasks(DateTime cutoffTime)
+    {
+        // Create a filter to find tasks assigned after the cutoff time.
+        var filter = Builders<ServiceTask>.Filter.Gt(task => task.Timestamp, cutoffTime);
+
+        // Use the filter to query MongoDB and retrieve newly assigned tasks.
+        var newlyAssignedTasks = await _task.Find(filter).ToListAsync();
+
+        return newlyAssignedTasks;
     }
 
     public async Task<List<ServiceTask>> GetTasksByProjectReference(string projectReference)
